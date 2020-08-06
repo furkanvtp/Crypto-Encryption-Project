@@ -1,0 +1,87 @@
+main.c
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "kripto.h"
+
+
+int main(){
+	char word[100],key[100],pass[100],new_key[100];
+	
+	
+	input_word(word);
+	input_key(key);
+
+	lowercase(word);
+	lowercase(key);
+
+	word_edit(strlen(word),strlen(key),new_key,key,word);
+	print_and_encryption(pass,word,new_key);
+
+
+	return 0;
+}
+
+---------------------------------------------------------------------
+kripto.h
+
+#ifndef kripto_h
+#define kripto_h
+
+void input_word(char *arr);
+void input_key(char *arr);
+int new_char(int word_letter,int key_letter);
+int lowercase(char *arr);
+void word_edit(int len_word,int len_key,char *new_key,char *key,char *word);
+void print_and_encryption(char *pass,char *word,char *new_key);
+#endif
+--------------------------------------------------------------------------
+kripto.c
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "kripto.h"
+
+
+void input_key(char *arr){
+	printf("Enter Key: ");
+	scanf("%s",arr);
+}
+void input_word(char *arr){
+	printf("Enter Word: ");
+	scanf("%s",arr);
+}
+int new_char(int word_letter,int key_letter){
+	return (word_letter+key_letter)%26 +65;
+}
+int lowercase(char *arr){
+	int i;
+	for(i=0;i<strlen(arr);i++){
+		if(arr[i] > 90){
+			arr[i] = arr[i] - 32;
+		}
+	}
+
+}
+void word_edit(int len_word,int len_key,char *new_key,char *key,char *word){
+	int i=0,j=0;
+	if(strlen(word)>strlen(key)){
+		while(strlen(word)!=j){
+			if(i == strlen(key)){
+			i=0;
+			}
+			new_key[j] = key[i];
+			i++;
+			j++;
+		}
+	}
+}
+void print_and_encryption(char *pass,char *word,char *new_key){
+	int i;
+	for(i=0;i<strlen(word);i++){
+		pass[i]=new_char(word[i]-65,new_key[i]-65);
+	}
+	printf("Pass : %s\n",pass);	
+}
